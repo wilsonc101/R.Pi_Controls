@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 import os
 
 from bottle import get, post, route, run, template, request, static_file, redirect, Bottle
