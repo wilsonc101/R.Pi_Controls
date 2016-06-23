@@ -1,14 +1,59 @@
 #! /usr/bin/env python3
 
 import os
+import argparse
+import datetime
 
-from bottle import get, post, route, run, template, request, static_file, redirect, Bottle
+from functools import wraps
+
+from bottle import get, post, route, run, template, request, static_file, redirect, Bottle, response
 import bottle_redis
+
+import core.config as config
+import core.logger as log
+
+# Setup input arguments
+arg_parser = argparse.ArgumentParser(description='Usage options for http server')
+arg_parser.add_argument('-l', '--logfile', help="Optional - Log file path")
+args = vars(arg_parser.parse_args())
+
+# Validate input - Log file
+if args['logfile'] is not None:
+    logfilepath = args['logfile']
+else:
+    logfilepath = config.content.httplogging['path']
+
+# Setup logging
+logfile = log.CreateLogger(toconsole=False,
+                           tofile=True,
+                           filepath=logfilepath,
+                           level=config.content.httplogging['level'])
+
+assert logfile, "Failed to create log outputs"
+
+def log_to_logger(fn):
+    '''
+    Wrap a Bottle request so that a log line is emitted after it's handled.
+    (This decorator can be extended to take the desired logger as a param.)
+    '''
+    @wraps(fn)
+    def _log_to_logger(*args, **kwargs):
+        request_time = datetime.datetime.now()
+        actual_response = fn(*args, **kwargs)
+        # modify this to log exactly what you need:
+        logfile.info('%s %s %s %s %s' % (request.remote_addr,
+                                        request_time,
+                                        request.method,
+                                        request.url,
+                                        response.status))
+        return actual_response
+    return _log_to_logger
 
 
 app = Bottle()
 plugin = bottle_redis.RedisPlugin(host='localhost')
 app.install(plugin)
+app.install(log_to_logger)
 
 @app.route('/')
 def form():
@@ -91,4 +136,4 @@ def submit(rdb):
     redirect(source_page)
 
 
-app.run(host='0.0.0.0', port=8080)
+app.run(host='0.0.0.0', port=8080, quiet=True)
