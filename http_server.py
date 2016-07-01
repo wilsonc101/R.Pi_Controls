@@ -136,4 +136,4 @@ def submit(rdb):
     redirect(source_page)
 
 
-app.run(host='0.0.0.0', port=8080, quiet=True)
+app.run(host=config.content.httpserver['ip_address'], port=int(config.content.httpserver['port']), quiet=True)

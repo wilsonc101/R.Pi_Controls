@@ -45,6 +45,13 @@ with open(gpio_mapping_filepath) as gpio_mapping_file:
     logfile.info("loading GPIO mapping file %r" % gpio_mapping_filepath)
 
 
+
+# Set all relays to off initially
+db_relay_entries = redisdb.getObjects()
+for entry in db_relay_entries:
+    redisdb.setObject(entry, "off")
+
+
 while True:
     for mapping in gpio_mapping['mapping']:
         relay = mapping

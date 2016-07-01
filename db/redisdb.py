@@ -2,9 +2,12 @@
 
 import redis
 
-REDIS_SERVER = "localhost"
-REDIS_SERVER_PORT = 6379
-REDIS_DB = 0
+import core.config as config
+
+
+REDIS_SERVER = config.content.redis['server']
+REDIS_SERVER_PORT = int(config.content.redis['port'])
+REDIS_DB = int(config.content.redis['database'])
 
 REDIS_CONNECTION = redis.StrictRedis(host=REDIS_SERVER,
                                      port=REDIS_SERVER_PORT,
@@ -37,3 +40,9 @@ def getObjects(key="relay*"):
             objects[id] = object
 
     return objects
+
+
+def setObject(id, value):
+    REDIS_CONNECTION.set(id, value)
+
+    return True
