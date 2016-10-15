@@ -14,6 +14,14 @@ REDIS_CONNECTION = redis.StrictRedis(host=REDIS_SERVER,
                                      db=REDIS_DB)
 
 
+
+
+def createObject(key, value):
+    REDIS_CONNECTION.append(key=key, value=value)
+
+    return True
+
+
 def deleteObject(id):
     REDIS_CONNECTION.delete(id)
 

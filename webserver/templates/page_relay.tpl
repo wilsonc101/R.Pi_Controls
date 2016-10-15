@@ -12,8 +12,8 @@
    <form action="/relayinput" method="POST" id="form1">
     <input type="hidden" name="relay" value="1">
     <input type="hidden" name="page" value="page_relay.html">
-    <input type="radio" name="state" value="off" {{relay_1_off}}> Off<br>
-    <input type="radio" name="state" value="on" {{relay_1_on}}> On<br>
+    <input type="radio" name="state" value="off" {{ 'checked' if relay_1 == "off" else "" }}> Off<br>
+    <input type="radio" name="state" value="on" {{ 'checked' if relay_1 == "on" else "" }}> On<br>
    </form>
 
    <button type="submit" form="form1" value="Submit">RELAY 1</button>
@@ -24,8 +24,8 @@
    <form action="/relayinput" method="POST" id="form2">
     <input type="hidden" name="relay" value="2">
     <input type="hidden" name="page" value="page_relay.html">
-    <input type="radio" name="state" value="off" {{relay_2_off}}> Off<br>
-    <input type="radio" name="state" value="on" {{relay_2_on}}> On<br>
+    <input type="radio" name="state" value="off" {{ 'checked' if relay_2 == "off" else "" }}> Off<br>
+    <input type="radio" name="state" value="on" {{ 'checked' if relay_2 == "on" else "" }}> On<br>
    </form>
 
    <button type="submit" form="form2" value="Submit">RELAY 2</button>
@@ -36,8 +36,8 @@
    <form action="/relayinput" method="POST" id="form3">
     <input type="hidden" name="relay" value="3">
     <input type="hidden" name="page" value="page_relay.html">
-    <input type="radio" name="state" value="off" {{relay_3_off}}> Off<br>
-    <input type="radio" name="state" value="on" {{relay_3_on}}> On<br>
+    <input type="radio" name="state" value="off" {{ 'checked' if relay_3 == "off" else "" }}> Off<br>
+    <input type="radio" name="state" value="on" {{ 'checked' if relay_3 == "on" else "" }}> On<br>
    </form>
 
    <button type="submit" form="form3" value="Submit">RELAY 3</button>
@@ -48,12 +48,13 @@
    <form action="/relayinput" method="POST" id="form4">
     <input type="hidden" name="relay" value="4">
     <input type="hidden" name="page" value="page_relay.html">
-    <input type="radio" name="state" value="off" {{relay_4_off}}> Off<br>
-    <input type="radio" name="state" value="on" {{relay_4_on}}> On<br>
+    <input type="radio" name="state" value="off" {{ 'checked' if relay_4 == "off" else "" }}> Off<br>
+    <input type="radio" name="state" value="on" {{ 'checked' if relay_4 == "on" else "" }}> On<br>
    </form>
 
    <button type="submit" form="form4" value="Submit">RELAY 4</button>
   </div>
+
 
   </div>
 
