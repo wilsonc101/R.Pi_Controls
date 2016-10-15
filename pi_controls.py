@@ -3,6 +3,8 @@
 import argparse
 import os
 import json
+import multiprocessing
+import time
 
 import core.config as config
 import core.logger as log
@@ -12,17 +14,14 @@ from webserver import server
 from scheduler import gpioscheduler
 
 
-
-
 # Setup input arguments
 arg_parser = argparse.ArgumentParser(description='Pi Controls options')
 arg_parser.add_argument('-l', '--logfile', help="Optional - Log file path")
 arg_parser.add_argument('-m', '--mappingfile', help="Optional - GPIO Mapping file path for scheduler")
 arg_parser.add_argument('--firstrun', dest='firstrun', action='store_true', help="Optional - Create Redis objects")
-arg_parser.add_argument('--webserver', dest='runwebserver', action='store_true', help="Run Pi Controls web server")
-arg_parser.add_argument('--scheduler', dest='runscheduler', action='store_true', help="Run Pi Controls scheduler")
+arg_parser.add_argument('--webserver', dest='runwebserver', action='store_true', help="Run Pi Controls web server only")
+arg_parser.add_argument('--scheduler', dest='runscheduler', action='store_true', help="Run Pi Controls scheduler only")
 args = vars(arg_parser.parse_args())
-
 
 # Validate input - Log file
 if args['logfile'] is not None:
@@ -54,12 +53,6 @@ if args['firstrun']:
         for key in keys:
             redisdb.createObject(key, "off")
 
-if args['runwebserver'] and args['runscheduler']:
-    control_pconn, control_cconn = multiprocessing.Pipe()
-    control_worker = multiprocessing.Process(target=control_reader.run, args=(control_cconn,))
-    control_worker.daemon = True
-    control_worker.start()
-
 if args['runwebserver']:
     print("Starting PiControl Webserver....")
     pi_controls_webserver = server.WebServer(logfile)
@@ -67,5 +60,23 @@ if args['runwebserver']:
 
 if args['runscheduler']:
     print("Starting PiControl Scheduler....")
-    gpio_scheduler = gpioscheduler.ControlScheduler(logfile)
+    gpio_scheduler = gpioscheduler.ControlScheduler(logfile, gpio_mapping_filepath)
+    gpio_scheduler.run_schedule()
 
+if not args['runwebserver'] and not args['runscheduler']:
+    # Setup scheduler thread
+    print("Starting PiControl Scheduler....")
+    gpio_scheduler = gpioscheduler.ControlScheduler(logfile, gpio_mapping_filepath)
+    scheduler_worker = multiprocessing.Process(target=gpio_scheduler.run_schedule)
+    scheduler_worker.daemon = True
+    scheduler_worker.start()
+
+    # Start webserver thread
+    print("Starting PiControl Webserver....")
+    pi_controls_webserver = server.WebServer(logfile)
+    webserver_worker = multiprocessing.Process(target=pi_controls_webserver.run_server)
+    webserver_worker.daemon = True
+    webserver_worker.start()
+
+while True:
+    time.sleep(1)
