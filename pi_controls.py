@@ -70,6 +70,7 @@ if not args['runwebserver'] and not args['runscheduler']:
     scheduler_worker = multiprocessing.Process(target=gpio_scheduler.run_schedule)
     scheduler_worker.daemon = True
     scheduler_worker.start()
+    print("....done.")
 
     # Start webserver thread
     print("Starting PiControl Webserver....")
@@ -77,6 +78,7 @@ if not args['runwebserver'] and not args['runscheduler']:
     webserver_worker = multiprocessing.Process(target=pi_controls_webserver.run_server)
     webserver_worker.daemon = True
     webserver_worker.start()
+    print("....done.")
 
 while True:
     time.sleep(1)
