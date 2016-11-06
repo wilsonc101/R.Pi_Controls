@@ -19,14 +19,10 @@
 
   <div id="relay_panel_inner">
    <img src="images/relay_2.png" width="40" height=40"><br><br>
-   <form action="/relayinput" method="POST" id="form2">
     <input type="hidden" name="relay" value="2">
     <input type="hidden" name="page" value="page_relay.html">
     <input type="radio" name="state_2" value="off" {{ 'checked' if relay_2 == "off" else "" }}> Off<br>
     <input type="radio" name="state_2" value="on" {{ 'checked' if relay_2 == "on" else "" }}> On<br>
-   </form>
-
-   <button type="submit" form="form2" value="Submit">RELAY 2</button>
   </div>
 
   <div id="relay_panel_inner">
@@ -35,7 +31,6 @@
     <input type="hidden" name="page" value="page_relay.html">
     <input type="radio" name="state_3" value="off" {{ 'checked' if relay_3 == "off" else "" }}> Off<br>
     <input type="radio" name="state_3" value="on" {{ 'checked' if relay_3 == "on" else "" }}> On<br>
-
   </div>
 
   <div id="relay_panel_inner">
@@ -44,9 +39,13 @@
     <input type="hidden" name="page" value="page_relay.html">
     <input type="radio" name="state_4" value="off" {{ 'checked' if relay_4 == "off" else "" }}> Off<br>
     <input type="radio" name="state_4" value="on" {{ 'checked' if relay_4 == "on" else "" }}> On<br>
-
-   <button type="submit" form="states" value="Submit">SET</button>
   </div>
+
+  <div id="relay_panel_inner">
+    <button type="submit" form="states" value="Submit">SET</button>
+  </div>
+
+
   </div>
   </form>
 
