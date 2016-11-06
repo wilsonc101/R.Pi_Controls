@@ -44,6 +44,12 @@
     float:left;
     font-family: Arial, Helvetica, sans-serif;
 }
+#relay_button_panel_inner {
+    top:145;
+    width:120;
+    height:120;
+    text-align:center;
+}
 
 a.cleanlink:link, a.cleanlink:visited, a.cleanlink:hover, a.cleanlink:active {
     color:white;
@@ -57,11 +63,17 @@ a.navlink:link, a.navlink:visited, a.navlink:hover, a.navlink:active {
 
 .relay_button {
     background-color: #e7e7e7;
-    border: none;
+    border: 2px solid #e7e7e7;
     color: black;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+}
+
+.relay_button:hover {
+    background-color: white;
+    color: black;
+    border: 2px solid #e7e7e7;
 }

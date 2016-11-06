@@ -2,6 +2,7 @@
 <body>
   <head>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script type="text/javascript" src="wickedpicker.js"></script>
     <title>{{page_title}}</title>
   </head>
 
@@ -40,14 +41,15 @@
     <input type="radio" name="state_4" value="on" {{ 'checked' if relay_4 == "on" else "" }}> On<br>
   </div>
 
-  <div id="relay_panel_inner">
-    <br><br>
+  <div id="relay_button_panel_inner">
     <button type="submit" class="relay_button" form="states" value="Submit">SET</button>
   </div>
-
-
   </div>
   </form>
+
+ <form>
+   <input type="text" id="timepicker" name="timepicker" class="timepicker form-control"><br>
+ </form>
 
 
 </body>
