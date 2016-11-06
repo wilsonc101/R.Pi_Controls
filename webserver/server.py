@@ -77,11 +77,11 @@ class WebServer():
 
     @app.post('/relayinput')
     def submit(self, rdb):
-        relay = int(request.forms.get('relay'))
         source_page = request.forms.get('page')
-        relay_state = request.forms.get('state')
 
-        rdb.set("relay_" + str(relay), relay_state)
+        for relay_id in range(1, 5):
+            relay_state = request.forms.get('state_' + str(relay_id))
+            rdb.set("relay_" + str(relay_id), relay_state)
 
         redirect(source_page)
 

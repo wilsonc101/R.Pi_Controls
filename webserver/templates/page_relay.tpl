@@ -6,17 +6,15 @@
   </head>
 
 
+  <form action="/relayinput" method="POST" id="states">
   <div id="relay_panel_outter">
   <div id="relay_panel_inner">
    <img src="images/relay_1.png" width="40" height=40"><br><br>
-   <form action="/relayinput" method="POST" id="form1">
     <input type="hidden" name="relay" value="1">
     <input type="hidden" name="page" value="page_relay.html">
-    <input type="radio" name="state" value="off" {{ 'checked' if relay_1 == "off" else "" }}> Off<br>
-    <input type="radio" name="state" value="on" {{ 'checked' if relay_1 == "on" else "" }}> On<br>
-   </form>
+    <input type="radio" name="state_1" value="off" {{ 'checked' if relay_1 == "off" else "" }}> Off<br>
+    <input type="radio" name="state_1" value="on" {{ 'checked' if relay_1 == "on" else "" }}> On<br>
 
-   <button type="submit" form="form1" value="Submit">RELAY 1</button>
   </div>
 
   <div id="relay_panel_inner">
@@ -24,8 +22,8 @@
    <form action="/relayinput" method="POST" id="form2">
     <input type="hidden" name="relay" value="2">
     <input type="hidden" name="page" value="page_relay.html">
-    <input type="radio" name="state" value="off" {{ 'checked' if relay_2 == "off" else "" }}> Off<br>
-    <input type="radio" name="state" value="on" {{ 'checked' if relay_2 == "on" else "" }}> On<br>
+    <input type="radio" name="state_2" value="off" {{ 'checked' if relay_2 == "off" else "" }}> Off<br>
+    <input type="radio" name="state_2" value="on" {{ 'checked' if relay_2 == "on" else "" }}> On<br>
    </form>
 
    <button type="submit" form="form2" value="Submit">RELAY 2</button>
@@ -33,30 +31,25 @@
 
   <div id="relay_panel_inner">
    <img src="images/relay_3.png" width="40" height=40"><br><br>
-   <form action="/relayinput" method="POST" id="form3">
     <input type="hidden" name="relay" value="3">
     <input type="hidden" name="page" value="page_relay.html">
-    <input type="radio" name="state" value="off" {{ 'checked' if relay_3 == "off" else "" }}> Off<br>
-    <input type="radio" name="state" value="on" {{ 'checked' if relay_3 == "on" else "" }}> On<br>
-   </form>
+    <input type="radio" name="state_3" value="off" {{ 'checked' if relay_3 == "off" else "" }}> Off<br>
+    <input type="radio" name="state_3" value="on" {{ 'checked' if relay_3 == "on" else "" }}> On<br>
 
-   <button type="submit" form="form3" value="Submit">RELAY 3</button>
   </div>
 
   <div id="relay_panel_inner">
    <img src="images/relay_4.png" width="40" height=40"><br><br>
-   <form action="/relayinput" method="POST" id="form4">
     <input type="hidden" name="relay" value="4">
     <input type="hidden" name="page" value="page_relay.html">
-    <input type="radio" name="state" value="off" {{ 'checked' if relay_4 == "off" else "" }}> Off<br>
-    <input type="radio" name="state" value="on" {{ 'checked' if relay_4 == "on" else "" }}> On<br>
-   </form>
+    <input type="radio" name="state_4" value="off" {{ 'checked' if relay_4 == "off" else "" }}> Off<br>
+    <input type="radio" name="state_4" value="on" {{ 'checked' if relay_4 == "on" else "" }}> On<br>
 
-   <button type="submit" form="form4" value="Submit">RELAY 4</button>
+   <button type="submit" form="states" value="Submit">SET</button>
   </div>
-
-
   </div>
+  </form>
+
 
 </body>
 </html>
