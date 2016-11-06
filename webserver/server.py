@@ -70,6 +70,8 @@ class WebServer():
             return static_file(filename, root='./webserver/pages')
         elif ext == ".css":
             return static_file(filename, root='./webserver/style')
+        elif ext == ".js":
+            return static_file(filename, root='./webserver/scripts')
 
     @app.route('/images/<filename>')
     def files(self, filename):
