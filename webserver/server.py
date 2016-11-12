@@ -87,8 +87,26 @@ class WebServer():
 
         redirect(source_page)
 
+    @app.post('/scheduleinput')
+    def submit(self, rdb):
+        source_page = request.forms.get('page')
+
+        for relay_id in range(1, 5):
+            on_hour = request.forms.get('on_hour_' + str(relay_id))
+            on_min = request.forms.get('on_min_' + str(relay_id))
+
+            off_hour = request.forms.get('off_hour_' + str(relay_id))
+            off_min = request.forms.get('off_min_' + str(relay_id))
+
+            if relay_id == 1:
+                print("1 on: " + str(on_hour) + ":" + str(on_min))
+            #rdb.set("relay_" + str(relay_id), relay_state)
+
+        redirect(source_page)
+
 
     def run_server(self):
         self.app.run(host=config.content.httpserver['ip_address'],
                      port=int(config.content.httpserver['port']),
                      quiet=True)
+
