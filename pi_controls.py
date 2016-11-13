@@ -52,6 +52,8 @@ if args['firstrun']:
         keys = [i for i in json.load(mappingfile)['mapping'].keys()]
         for key in keys:
             redisdb.createObject(key, "off")
+            redisdb.createObject(key + "_on", "00:00")
+            redisdb.createObject(key + "_off", "00:00")
 
 if args['runwebserver']:
     print("Starting PiControl Webserver....")

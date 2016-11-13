@@ -41,6 +41,9 @@
 
   <hr>
 
+
+
+
   <form action="/scheduleinput" method="POST" id="schedule">
   <input type="hidden" name="page" value="page_relay.html">
   Current Schedule<br><br>
@@ -52,10 +55,10 @@
       On:
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=23 name="on_hour_1" value=0 class="time_input">
+      <input type="number" min=0 max=23 name="on_hour_1" value={{ relay_1_on_hour }} class="time_input">
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=45 step=15 name="on_min_1" value=0 class="time_input">
+      <input type="number" min=0 max=45 step=15 name="on_min_1" value={{ relay_1_on_min }} class="time_input">
     </div>
 
     <br><br><br>
@@ -64,10 +67,10 @@
       Off:
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=23 name="off_hour_1" value=12 class="time_input">
+      <input type="number" min=0 max=23 name="off_hour_1" value={{ relay_1_off_hour }} class="time_input">
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=45 step=15 name="off_min_1" value=0 class="time_input">
+      <input type="number" min=0 max=45 step=15 name="off_min_1" value={{ relay_1_off_min }} class="time_input">
     </div>
 
   </div>
@@ -79,10 +82,10 @@
       On:
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=23 name="on_hour_2" value=0 class="time_input">
+      <input type="number" min=0 max=23 name="on_hour_2" value={{ relay_2_on_hour }} class="time_input">
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=45 step=15 name="on_min_2" value=0 class="time_input">
+      <input type="number" min=0 max=45 step=15 name="on_min_2" value={{ relay_2_on_min }} class="time_input">
     </div>
 
     <br><br><br>
@@ -91,10 +94,10 @@
       Off:
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=23 name="off_hour_2" value=12 class="time_input">
+      <input type="number" min=0 max=23 name="off_hour_2" value={{ relay_2_off_hour }} class="time_input">
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=45 step=15 name="off_min_2" value=0 class="time_input">
+      <input type="number" min=0 max=45 step=15 name="off_min_2" value={{ relay_2_off_min }} class="time_input">
     </div>
 
   </div>
@@ -107,10 +110,10 @@
       On:
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=23 name="on_hour_3" value=0 class="time_input">
+      <input type="number" min=0 max=23 name="on_hour_3" value={{ relay_3_on_hour }} class="time_input">
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=45 step=15 name="on_min_3" value=0 class="time_input">
+      <input type="number" min=0 max=45 step=15 name="on_min_3" value={{ relay_3_on_min }} class="time_input">
     </div>
 
     <br><br><br>
@@ -119,10 +122,10 @@
       Off:
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=23 name="off_hour_3" value=12 class="time_input">
+      <input type="number" min=0 max=23 name="off_hour_3" value={{ relay_3_off_hour }} class="time_input">
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=45 step=15 name="off_min_3" value=0 class="time_input">
+      <input type="number" min=0 max=45 step=15 name="off_min_3" value={{ relay_3_off_min }} class="time_input">
     </div>
 
   </div>
@@ -135,10 +138,10 @@
       On:
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=23 name="on_hour_4" value=0 class="time_input">
+      <input type="number" min=0 max=23 name="on_hour_4" value={{ relay_4_on_hour }} class="time_input">
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=45 step=15 name="on_min_4" value=0 class="time_input">
+      <input type="number" min=0 max=45 step=15 name="on_min_4" value={{ relay_4_on_min }} class="time_input">
     </div>
 
     <br><br><br>
@@ -147,10 +150,10 @@
       Off:
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=23 name="off_hour_4" value=12 class="time_input">
+      <input type="number" min=0 max=23 name="off_hour_4" value={{ relay_4_off_hour }} class="time_input">
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=45 step=15 name="off_min_4" value=0 class="time_input">
+      <input type="number" min=0 max=45 step=15 name="off_min_4" value={{ relay_4_off_min }} class="time_input">
     </div>
 
   </div>

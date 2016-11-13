@@ -47,8 +47,26 @@ class ControlScheduler():
         current_state = dict()
 
         while True:
+            now_hour = int(time.strftime("%H"))
+            now_min = int(time.strftime("%M"))
+
             for mapping in self.gpio_mapping['mapping']:
                 relay = mapping
+
+                # Convert on/off times to Redis state
+                gpio_on_hour, gpio_on_min = redisdb.getObject(relay + "_on").split(":")
+                gpio_off_hour, gpio_off_min = redisdb.getObject(relay + "_off").split(":")
+
+                # Set state to ON
+                if int(gpio_on_hour) == now_hour and int(gpio_on_min) == now_min:
+                    redisdb.set(relay, "on")
+
+                # Set state to OFF
+                if int(gpio_off_hour) == now_hour and int(gpio_off_min) == now_min:
+                    redisdb.set(relay, "off")
+
+
+                # Convert Redis state to GPIO
                 gpio_pin = int(self.gpio_mapping['mapping'][mapping])
                 gpio_state = redisdb.getObject(relay)
                             

@@ -51,6 +51,15 @@ class WebServer():
         for relay in relay_state.keys():
             relay_state[relay] = rdb.get(relay).decode('utf-8')
 
+            on_hour, on_min = rdb.get(relay + "_on").decode('utf-8').split(":")
+            off_hour, off_min = rdb.get(relay + "_off").decode('utf-8').split(":")
+
+            relay_state[relay + "_on_hour"] = int(on_hour)
+            relay_state[relay + "_on_min"] = int(on_min)
+
+            relay_state[relay + "_off_hour"] = int(off_hour)
+            relay_state[relay + "_off_min"] = int(off_min)
+
         return template('./webserver/templates/page_relay.tpl',
                         page_title="Pi Controls - Relays",
                         **relay_state)
@@ -92,15 +101,14 @@ class WebServer():
         source_page = request.forms.get('page')
 
         for relay_id in range(1, 5):
-            on_hour = request.forms.get('on_hour_' + str(relay_id))
-            on_min = request.forms.get('on_min_' + str(relay_id))
+            on_hour = str(request.forms.get('on_hour_' + str(relay_id)))
+            on_min = str(request.forms.get('on_min_' + str(relay_id)))
 
-            off_hour = request.forms.get('off_hour_' + str(relay_id))
-            off_min = request.forms.get('off_min_' + str(relay_id))
+            off_hour = str(request.forms.get('off_hour_' + str(relay_id)))
+            off_min = str(request.forms.get('off_min_' + str(relay_id)))
 
-            if relay_id == 1:
-                print("1 on: " + str(on_hour) + ":" + str(on_min))
-            #rdb.set("relay_" + str(relay_id), relay_state)
+            rdb.set("relay_" + str(relay_id) + "_on", on_hour + ":" + on_min)
+            rdb.set("relay_" + str(relay_id) + "_off", off_hour + ":" + off_min)
 
         redirect(source_page)
 
