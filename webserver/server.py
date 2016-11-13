@@ -48,21 +48,24 @@ class WebServer():
 
         relay_state = DEFAULT_RELAY_STATE
 
+        relay_data = dict()
+
         for relay in relay_state.keys():
-            relay_state[relay] = rdb.get(relay).decode('utf-8')
+            relay_data[relay] = rdb.get(relay).decode('utf-8')
 
             on_hour, on_min = rdb.get(relay + "_on").decode('utf-8').split(":")
             off_hour, off_min = rdb.get(relay + "_off").decode('utf-8').split(":")
 
-            relay_state[relay + "_on_hour"] = int(on_hour)
-            relay_state[relay + "_on_min"] = int(on_min)
+            relay_data[relay + "_on_hour"] = int(on_hour)
+            relay_data[relay + "_on_min"] = int(on_min)
 
-            relay_state[relay + "_off_hour"] = int(off_hour)
-            relay_state[relay + "_off_min"] = int(off_min)
+            relay_data[relay + "_off_hour"] = int(off_hour)
+            relay_data[relay + "_off_min"] = int(off_min)
+
 
         return template('./webserver/templates/page_relay.tpl',
                         page_title="Pi Controls - Relays",
-                        **relay_state)
+                        **relay_data)
 
     @app.route('/page_sensor.html')
     def page_sensor(self, rdb):

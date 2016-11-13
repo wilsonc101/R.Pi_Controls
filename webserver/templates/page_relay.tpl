@@ -58,7 +58,7 @@
       <input type="number" min=0 max=23 name="on_hour_1" value={{ relay_1_on_hour }} class="time_input">
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=45 step=15 name="on_min_1" value={{ relay_1_on_min }} class="time_input">
+      <input type="number" min=0 max=45 step=1 name="on_min_1" value={{ relay_1_on_min }} class="time_input">
     </div>
 
     <br><br><br>
@@ -70,7 +70,7 @@
       <input type="number" min=0 max=23 name="off_hour_1" value={{ relay_1_off_hour }} class="time_input">
     </div>
     <div id="relay_schedule_panel_line_inner">
-      <input type="number" min=0 max=45 step=15 name="off_min_1" value={{ relay_1_off_min }} class="time_input">
+      <input type="number" min=0 max=45 step=1 name="off_min_1" value={{ relay_1_off_min }} class="time_input">
     </div>
 
   </div>

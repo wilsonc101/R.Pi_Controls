@@ -36,7 +36,7 @@ class ControlScheduler():
 
     def initilise_outputs(self):
         # Set all relays to default state
-        db_relay_entries = redisdb.getObjects(key="relay*")
+        db_relay_entries = redisdb.getObjects(key="relay_[0-9]")
 
         for entry in db_relay_entries:
             redisdb.setObject(entry, config.content.relay_defaults[entry])
@@ -59,11 +59,13 @@ class ControlScheduler():
 
                 # Set state to ON
                 if int(gpio_on_hour) == now_hour and int(gpio_on_min) == now_min:
-                    redisdb.set(relay, "on")
+                    self.logfile.info("scheduled switch on for " + relay)
+                    redisdb.setObject(relay, "on")
 
                 # Set state to OFF
                 if int(gpio_off_hour) == now_hour and int(gpio_off_min) == now_min:
-                    redisdb.set(relay, "off")
+                    self.logfile.info("scheduled switch off for " + relay)
+                    redisdb.setObject(relay, "off")
 
 
                 # Convert Redis state to GPIO
