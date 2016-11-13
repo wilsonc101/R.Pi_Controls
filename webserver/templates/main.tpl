@@ -20,7 +20,7 @@
   </div>
 
   <div id="footer">
-    Some Text
+    {{ now }}
   </div>
 
 </body>

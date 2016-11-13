@@ -2,6 +2,7 @@
 
 import datetime
 import os
+import time
 
 from functools import wraps
 from bottle import get, post, route, run, template, request, static_file, redirect, Bottle, response
@@ -41,7 +42,8 @@ class WebServer():
 
     @app.route('/')
     def form(self):
-       return template("webserver/templates/main.tpl", page_title="Pi Controls")
+       current_time = time.strftime("%a, %d %b %Y  -  %H:%M:%S")
+       return template("webserver/templates/main.tpl", page_title="Pi Controls", now=current_time)
 
     @app.route('/page_relay.html')
     def page_relay(self, rdb):
@@ -61,7 +63,6 @@ class WebServer():
 
             relay_data[relay + "_off_hour"] = int(off_hour)
             relay_data[relay + "_off_min"] = int(off_min)
-
 
         return template('./webserver/templates/page_relay.tpl',
                         page_title="Pi Controls - Relays",
