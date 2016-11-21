@@ -9,6 +9,7 @@ from bottle import get, post, route, run, template, request, static_file, redire
 import bottle_redis
 
 import core.config as config
+import core.sensors as sensors
 
 DEFAULT_RELAY_STATE = config.content.relay_defaults
 
@@ -70,7 +71,11 @@ class WebServer():
 
     @app.route('/page_sensor.html')
     def page_sensor(self, rdb):
-        return static_file("landing.html", root='./webserver/pages')
+        sensor_data = sensors.get_sensor_data()
+
+        return template('./webserver/templates/page_sensor.tpl',
+                        page_title="Pi Controls - Sensors",
+                        **sensor_data)
 
     @app.route('/page_system.html')
     def page_system(self, rdb):

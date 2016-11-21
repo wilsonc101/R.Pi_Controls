@@ -46,7 +46,7 @@
 
   <form action="/scheduleinput" method="POST" id="schedule">
   <input type="hidden" name="page" value="page_relay.html">
-  Current Schedule<br><br>
+  Schedule<br><br>
   <div id="relay_panel_outter">
   <div id="relay_panel_inner">
 
