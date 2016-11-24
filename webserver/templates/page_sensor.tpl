@@ -15,13 +15,13 @@
 
   <div id="relay_panel_inner">
     <img src="images/sensor_2.png" width="40" height=40"><br><br>
-    SENSOR 2<br>
+    TC Internal<br>
     {{ sensor_2 }}
   </div>
 
   <div id="relay_panel_inner">
     <img src="images/sensor_3.png" width="40" height=40"><br><br>
-    SENSOR 3<br>
+    TC External<br>
     {{ sensor_3 }}
   </div>
 
