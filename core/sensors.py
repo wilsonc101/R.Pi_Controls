@@ -21,7 +21,8 @@ def get_sensor_data():
     thermo_external_reading = None
     thermo_internal_reading = None
     while thermo_external_reading == None and thermo_internal_reading == None:
-        external_reading = sensor.readTempC()
+#        external_reading = sensor.readTempC()     #    Real sensor disabled
+        external_reading = 0.0
         internal_reading = sensor.readInternalC()
 
         # filter out bad data

@@ -13,7 +13,6 @@ import core.sensors as sensors
 
 DEFAULT_RELAY_STATE = config.content.relay_defaults
 
-
 class WebServer():
     app = Bottle()
 
@@ -44,7 +43,9 @@ class WebServer():
     @app.route('/')
     def form(self):
        current_time = time.strftime("%a, %d %b %Y  -  %H:%M:%S")
-       return template("webserver/templates/main.tpl", page_title="Pi Controls", now=current_time)
+       return template(config.local_path + '/webserver/templates/main.tpl', 
+                       page_title="Pi Controls", 
+                       now=current_time)
 
     @app.route('/page_relay.html')
     def page_relay(self, rdb):
@@ -65,7 +66,7 @@ class WebServer():
             relay_data[relay + "_off_hour"] = int(off_hour)
             relay_data[relay + "_off_min"] = int(off_min)
 
-        return template('./webserver/templates/page_relay.tpl',
+        return template(config.local_path + '/webserver/templates/page_relay.tpl',
                         page_title="Pi Controls - Relays",
                         **relay_data)
 
@@ -73,27 +74,27 @@ class WebServer():
     def page_sensor(self, rdb):
         sensor_data = sensors.get_sensor_data()
 
-        return template('./webserver/templates/page_sensor.tpl',
+        return template(config.local_path + '/webserver/templates/page_sensor.tpl',
                         page_title="Pi Controls - Sensors",
                         **sensor_data)
 
     @app.route('/page_system.html')
     def page_system(self, rdb):
-        return static_file("landing.html", root='./webserver/pages')
+        return static_file("landing.html", root=config.local_path + '/webserver/pages')
 
     @app.route('/<filename>')
     def files(self, filename):
         name, ext = os.path.splitext(filename)
         if ext == ".html":
-            return static_file(filename, root='./webserver/pages')
+            return static_file(filename, root=config.local_path + '/webserver/pages')
         elif ext == ".css":
-            return static_file(filename, root='./webserver/style')
+            return static_file(filename, root=config.local_path + '/webserver/style')
         elif ext == ".js":
-            return static_file(filename, root='./webserver/scripts')
+            return static_file(filename, root=config.local_path + '/webserver/scripts')
 
     @app.route('/images/<filename>')
     def files(self, filename):
-        return static_file(filename, root='./webserver/images')
+        return static_file(filename, root=config.local_path + '/webserver/images')
 
     @app.post('/relayinput')
     def submit(self, rdb):

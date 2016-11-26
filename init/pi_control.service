@@ -1,0 +1,12 @@
+[Unit]
+Description=Pi Controls
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+ExecStart=/usr/local/pi_control/R.Pi_Controls/init/startup.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -3,6 +3,7 @@ import configparser
 
 from core import DEFAULT_CONFIG_FILE, DEFAULT_MAPPING_FILE
 
+
 class configuration(object):
     def __init__(self, config_data):
         for key in config_data.keys():
@@ -17,7 +18,9 @@ assert os.path.isfile(config_filepath), "Config file not found"
 config = configparser.ConfigParser()
 config.read(config_filepath)
 
-config_data = {}
+config_data = dict()
+config_data['local_path'] = local_path    # Add in so we know where we are when executed
+
 for section in config.sections():
     config_data[section] = {}
 
