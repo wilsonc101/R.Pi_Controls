@@ -76,6 +76,7 @@ body {
     float:left;
     font-family: Arial, Helvetica, sans-serif;
 }
+
 #relay_schedule_panel_line_inner_title {
     top:30;
     width:120;
@@ -85,7 +86,10 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-
+.uptime_text {
+    font-size: 16px; 
+    font-family: Arial, Helvetica, sans-serif;    
+}
 
 a.cleanlink:link, a.cleanlink:visited, a.cleanlink:hover, a.cleanlink:active {
     color:white;

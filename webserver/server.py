@@ -10,6 +10,7 @@ import bottle_redis
 
 import core.config as config
 import core.sensors as sensors
+import core.system as system
 
 DEFAULT_RELAY_STATE = config.content.relay_defaults
 
@@ -78,9 +79,11 @@ class WebServer():
                         page_title="Pi Controls - Sensors",
                         **sensor_data)
 
+
     @app.route('/page_system.html')
     def page_system(self, rdb):
-        return static_file("landing.html", root=config.local_path + '/webserver/pages')
+        return template(config.local_path + '/webserver/templates/page_system.tpl',
+                        page_title="Pi Controls - System")
 
     @app.route('/<filename>')
     def files(self, filename):
@@ -121,6 +124,15 @@ class WebServer():
             rdb.set("relay_" + str(relay_id) + "_off", off_hour + ":" + off_min)
 
         redirect(source_page)
+
+
+    @app.post('/systeminput')
+    def submit(self, rdb):
+        source_page = request.forms.get('page')
+        system.power_off()  
+
+        redirect(source_page)
+
 
 
     def run_server(self):

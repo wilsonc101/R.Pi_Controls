@@ -27,8 +27,8 @@
 
   <div id="relay_panel_inner">
     <img src="images/sensor_4.png" width="40" height=40"><br><br>
-    SENSOR 4<br>
-    {{ sensor_4 }}
+    Uptime
+<pre><span style="font-size: 16px; font-family: Arial, Helvetica, sans-serif;">{{ sensor_4 }}</span></pre>
   </div>
 
  </div>
