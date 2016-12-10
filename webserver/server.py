@@ -9,7 +9,6 @@ from bottle import get, post, route, run, template, request, static_file, redire
 import bottle_redis
 
 import core.config as config
-import core.sensors as sensors
 import core.system as system
 
 DEFAULT_RELAY_STATE = config.content.relay_defaults
