@@ -48,41 +48,41 @@ assert os.path.isfile(gpio_mapping_filepath), "GPIO mapping file not found"
 if args['firstrun']:
     with open(gpio_mapping_filepath) as mappingfile:
         # Create relay records
-        mapping_keys = [i for i in json.load(mappingfile)['mapping'].keys()]
+        mapping_content = json.load(mappingfile)
+        mapping_keys = [i for i in mapping_content['mapping'].keys()]
         for key in mapping_keys:
             redisdb.createObject(key, "off")
             redisdb.createObject(key + "_on", "00:00")
             redisdb.createObject(key + "_off", "00:00")
 
         # Create sensor records
-        sensor_keys = [i for i in json.load(mappingfile)['sensors'].keys()]
+        sensor_keys = [i for i in mapping_content['sensors'].keys()]
         for key in mapping_keys:
             redisdb.createObject(key, "0")
 
 
-if not args['runwebserver'] and not args['runscheduler']:
-    # Setup scheduler thread
-    print("Starting PiControl Scheduler....")
-    # GPIO
-    gpio_scheduler = gpioscheduler.ControlScheduler(logfile, gpio_mapping_filepath)
-    scheduler_worker = multiprocessing.Process(target=gpio_scheduler.run_schedule)
-    scheduler_worker.daemon = True
-    scheduler_worker.start()
+# Setup scheduler thread
+print("Starting PiControl Scheduler....")
+# GPIO
+gpio_scheduler = gpioscheduler.ControlScheduler(logfile, gpio_mapping_filepath)
+scheduler_worker = multiprocessing.Process(target=gpio_scheduler.run_schedule)
+scheduler_worker.daemon = True
+scheduler_worker.start()
 
-    # Sensors
-    sensor_monitor = sensormonitor.SensorMonitor(logfile)
-    monitor_worker = multiprocessing.Process(target=sensor_monitor.run_schedule)
-    monitor_worker.daemon = True
-    monitor_worker.start()
-    print("....done.")
+# Sensors
+sensor_monitor = sensormonitor.SensorMonitor(logfile)
+monitor_worker = multiprocessing.Process(target=sensor_monitor.run_schedule)
+monitor_worker.daemon = True
+monitor_worker.start()
+print("....done.")
 
-    # Start webserver thread
-    print("Starting PiControl Webserver....")
-    pi_controls_webserver = server.WebServer(logfile)
-    webserver_worker = multiprocessing.Process(target=pi_controls_webserver.run_server)
-    webserver_worker.daemon = True
-    webserver_worker.start()
-    print("....done.")
+# Start webserver thread
+print("Starting PiControl Webserver....")
+pi_controls_webserver = server.WebServer(logfile)
+webserver_worker = multiprocessing.Process(target=pi_controls_webserver.run_server)
+webserver_worker.daemon = True
+webserver_worker.start()
+print("....done.")
 
 while True:
     time.sleep(1)
