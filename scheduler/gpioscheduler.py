@@ -1,13 +1,11 @@
 #! /usr/bin/env python3
 
-import os
 import json
 import time
 
 import RPi.GPIO as gpio
 
 import core.redisdb as redisdb
-import core.logger as log
 import core.config as config
 
 
