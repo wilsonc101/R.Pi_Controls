@@ -73,7 +73,11 @@ class WebServer():
 
     @app.route('/page_sensor.html')
     def page_sensor(self, rdb):
-        sensor_data = sensors.get_sensor_data()
+        sensor_data = dict()
+    
+        for i in range(1, int(config.content.sensors['count'])+1):
+            sensor_id = "sensor_" + str(i)            
+            sensor_data[sensor_id] = rdb.get(sensor_id).decode('utf-8')
 
         return template(config.local_path + '/webserver/templates/page_sensor.tpl',
                         page_title="Pi Controls - Sensors",
