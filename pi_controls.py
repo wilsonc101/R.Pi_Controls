@@ -57,7 +57,7 @@ if args['firstrun']:
 
         # Create sensor records
         sensor_keys = [i for i in mapping_content['sensors'].keys()]
-        for key in mapping_keys:
+        for key in sensor_keys:
             redisdb.createObject(key, "0")
 
 
