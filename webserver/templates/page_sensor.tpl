@@ -14,13 +14,13 @@
   </div>
 
   <div id="relay_panel_inner">
-    <img src="images/sensor_2.png" width="40" height=40"><br><br>
+    <a href="graph/TC_internal"><img src="images/sensor_2.png" width="40" height=40"></a><br><br>
     TC Internal<br>
     {{ sensor_2 }}
   </div>
 
   <div id="relay_panel_inner">
-    <img src="images/sensor_3.png" width="40" height=40"><br><br>
+    <a href="graph/TC_external"><img src="images/sensor_3.png" width="40" height=40"></a><br><br>
     TC External<br>
     {{ sensor_3 }}
   </div>

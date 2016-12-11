@@ -10,6 +10,8 @@ import bottle_redis
 
 import core.config as config
 import core.system as system
+import core.sqlitedb as sqldb
+
 
 DEFAULT_RELAY_STATE = config.content.relay_defaults
 
@@ -102,6 +104,13 @@ class WebServer():
     def files(self, filename):
         return static_file(filename, root=config.local_path + '/webserver/images')
 
+    @app.route('/graph/<sensor>')
+    def submit(self, sensor):
+        graph = sqldb.render_sensor_data(sensor)
+
+        return template(config.local_path + '/webserver/templates/page_graph.tpl', 
+                        graph=graph)
+
     @app.post('/relayinput')
     def submit(self, rdb):
         source_page = request.forms.get('page')
@@ -135,7 +144,6 @@ class WebServer():
         system.power_off()  
 
         redirect(source_page)
-
 
 
     def run_server(self):

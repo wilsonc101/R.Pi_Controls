@@ -86,6 +86,14 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+#graph_panel {
+    top:30;
+    width:500;
+    height:300;
+    float:left;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .uptime_text {
     font-size: 16px; 
     font-family: Arial, Helvetica, sans-serif;    
