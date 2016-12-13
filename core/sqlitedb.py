@@ -2,7 +2,7 @@ import time
 
 import sqlite3
 import pygal
-from pygal.style import LightStyle
+from pygal.style import CleanStyle
 
 import core.config as config
 
@@ -14,11 +14,11 @@ DB_CUR = DB_CONN.cursor()
 def _generate_graph(data, labels, graph_title=""):
 
     # Use subdivision of data length for major points
-    label_count = int(len(data)/10)
+    label_count = int(len(data)/12)
 
     # Format graph
-    line_chart = pygal.Line(width=400, height=250,
-                            style=LightStyle,
+    line_chart = pygal.Line(width=500, height=400,
+                            style=CleanStyle,
                             show_legend=False,
                             x_label_rotation=90,
                             x_labels_major_count=label_count,
@@ -26,7 +26,9 @@ def _generate_graph(data, labels, graph_title=""):
                             show_minor_x_labels=False,
                             show_only_major_dots=True,
                             dots_size=3,
-                            title=graph_title)
+                            title=graph_title + " (24hrs)",
+                            font_family="Arial, Helvetica, sans-serif",
+			    colors=("#E853A0"))
 
     line_chart.add('', data)
     line_chart.x_labels = labels
@@ -35,12 +37,11 @@ def _generate_graph(data, labels, graph_title=""):
     
 
 def render_sensor_data(sensor, db_cursor=DB_CUR, table="sensor_data", date_column="record_date"):
-
     # Get SQL data
     db_data = db_cursor.execute("SELECT " + sensor + "," + date_column + \
                                 " FROM " + table + \
-                                " ORDER BY date(" + date_column + ")" + \
-                                " BETWEEN datetime('now','-1 day') AND datetime('now')")
+                                " WHERE strftime('%Y-%m-%dT%H:%M:%S', " + date_column + ") >= strftime('%Y-%m-%dT%H:%M:%S', 'now', '-1 day')" + \
+                                " ORDER BY strftime('%Y-%m-%dT%H:%M:%S'," + date_column + ")")
 
     # Loop SQL data and format for graphing
     formatted_data = list()
