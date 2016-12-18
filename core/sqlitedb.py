@@ -9,6 +9,29 @@ import core.config as config
 # Database is in a fixed location relative to installation path
 DB_CONN = sqlite3.connect(config.local_path + '/db/pi_control.db')
 DB_CUR = DB_CONN.cursor()
+DEFAULT_TABLE = "sensor_data"
+
+
+def initilise():
+    DB_CUR.execute("CREATE TABLE IF NOT EXISTS " + DEFAULT_TABLE + " (TC_internal, TC_external, record_date)")
+    DB_CONN.commit()
+    return True
+
+
+def prune_records():
+    DB_CUR.execute("DELETE FROM " + DEFAULT_TABLE + \
+                   " WHERE strftime('%Y-%m-%dT%H:%M:%S', record_date) <= strftime('%Y-%m-%dT%H:%M:%S', 'now', '-3 days')")
+    DB_CONN.commit()
+
+    return True
+
+
+def insert_sensor_data(data):
+    temp_data_sql = "INSERT INTO sensor_data(TC_internal, TC_external, record_date) VALUES(?, ?, ?)"
+    DB_CUR.execute(temp_data_sql, data)
+    DB_CONN.commit()
+
+    return True
 
 
 def _generate_graph(data, labels, graph_title=""):
