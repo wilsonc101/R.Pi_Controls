@@ -1,4 +1,6 @@
 import time
+import pycurl
+from io import BytesIO
 
 from subprocess import check_output
 
@@ -22,6 +24,22 @@ class SensorMonitor():
 
         # Setup sensors/common items
         self.initilise_sensors()
+
+
+    def _post_aws_data(self, data):
+        header = 'Content-Type:application/json'
+        buffer = BytesIO()
+        c = pycurl.Curl()
+
+        c.setopt(c.URL, config.content.aws['post_url'])
+        c.setopt(c.HTTPHEADER,[header])
+        c.setopt(c.WRITEDATA, buffer)
+        c.setopt(c.POSTFIELDS, str(data))
+        c.perform()
+        c.close()
+        self.logfile.debug("AWS Posted - " + buffer.getvalue().decode('iso-8859-1'))
+
+        return True
 
 
     def initilise_sensors(self):
@@ -73,6 +91,8 @@ class SensorMonitor():
             time_now = time.strftime("%Y-%m-%dT%H:%M:%S")
             if time_mins % 5 == 0:
                 if self._db_check is False:
+                    self._db_check = True
+
                     sqlitedb.insert_sensor_data((self.thermo_internal_reading, 
                                                  self.thermo_external_reading, 
                                                  time_now))
@@ -81,13 +101,18 @@ class SensorMonitor():
                     sqlitedb.prune_records()
                     self.logfile.info("Pruning date from DB")
 
-                    self._db_check = True
+                    # Post AWS data 20mins past the hour
+                    if time_mins == 20:
+                        data = {"date": time_now,
+                                "sensor": "TC_External",
+                                "value": float(self.thermo_external_reading.split("'")[0])}
 
+                        self._post_aws_data(data)
 
             # Reset db_check - ensures we only get one value every 5mins
             if time_mins % 5 > 0:
                 self._db_check = False
-                
-            time.sleep(2)
 
+            # Slow the loop to avoid thrashing the CPU
+            time.sleep(2)
 
