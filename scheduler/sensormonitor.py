@@ -25,21 +25,30 @@ class SensorMonitor():
         # Setup sensors/common items
         self.initilise_sensors()
 
+        # AWS data template
+        self._template = {'date': None,
+                          'purge': None,
+                          'data': None}
+
 
     def _post_aws_data(self, data):
         header = 'Content-Type:application/json'
         buffer = BytesIO()
         c = pycurl.Curl()
+        try:
+            c.setopt(c.URL, config.content.aws['post_url'])
+            c.setopt(c.HTTPHEADER,[header])
+            c.setopt(c.WRITEDATA, buffer)
+            c.setopt(c.POSTFIELDS, str(data))
+            c.perform()
+            c.close()
 
-        c.setopt(c.URL, config.content.aws['post_url'])
-        c.setopt(c.HTTPHEADER,[header])
-        c.setopt(c.WRITEDATA, buffer)
-        c.setopt(c.POSTFIELDS, str(data))
-        c.perform()
-        c.close()
-        self.logfile.debug("AWS Posted - " + buffer.getvalue().decode('iso-8859-1'))
+            self.logfile.debug("AWS Posted - " + buffer.getvalue().decode('iso-8859-1'))
+            return True
 
-        return True
+        except:
+            self.logfile.warning("Failed to post to AWS")
+            return False
 
 
     def initilise_sensors(self):
@@ -88,6 +97,7 @@ class SensorMonitor():
 
             # Write timestamped TC sensor data to DB and prune data once every 5 mins
             time_mins = int(time.strftime("%M"))
+            time_hours = int(time.strftime("%H"))
             time_now = time.strftime("%Y-%m-%dT%H:%M:%S")
             if time_mins % 5 == 0:
                 if self._db_check is False:
@@ -102,10 +112,19 @@ class SensorMonitor():
                     self.logfile.info("Pruning date from DB")
 
                     # Post AWS data 20mins past the hour
-                    if time_mins == 20:
-                        data = {"date": time_now,
-                                "sensor": "TC_External",
-                                "value": float(self.thermo_external_reading.split("'")[0])}
+                    if time_mins == 30:
+                        data = self._template
+                        data['date'] = time_now
+                        data['data'] = [{'Name':'TC_External',
+                                         'Value':str(external_reading)},
+                                        {'Name':'TC_Internal',
+                                         'Value':str(internal_reading)}]
+
+                        # Trigger data purge at 2020hrs
+                        if time_hours == 20:
+                            data['purge'] = "True"
+                        else:
+                            data['purge'] = "False"
 
                         self._post_aws_data(data)
 
